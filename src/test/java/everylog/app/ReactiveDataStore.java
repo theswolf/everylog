@@ -1,6 +1,9 @@
 package everylog.app;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
@@ -10,18 +13,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import rx.Observable;
-import rx.Observable.OnSubscribe;
 import rx.Subscriber;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
-import core.september.everylog.aspect.TraceableAspect;
-import core.september.everylog.config.Configurer;
 import core.september.everylog.engine.iface.DataStore;
 import core.september.everylog.engine.iface.EventMessage;
 
 public class ReactiveDataStore implements DataStore {
 	
-	private Queue<EventMessage<?>>  list;
+	private Queue<EventMessage<?>>  inputqueue;
+	private List<EventMessage<?>> outputList;
 	private static Logger logger = LoggerFactory.getLogger(ReactiveDataStore.class);
 	private Object lock = new Object();
 	private final static int limit = 5;
@@ -29,27 +29,28 @@ public class ReactiveDataStore implements DataStore {
 	private ExecutorService executorServiceForSubscribers = Executors.newFixedThreadPool(2);
 	private Subscriber<? super EventMessage> subscriber;
 	public ReactiveDataStore() {
-		list = new ConcurrentLinkedQueue();
+		inputqueue = new ConcurrentLinkedQueue();
+		outputList = Collections.synchronizedList(new ArrayList<EventMessage<?>>());
 	}
 	
 	
 
 	@Override
 	public boolean storeData(final EventMessage<?> event) {
-		//return list.add(event);
-		if(list.size() >= limit) {
-			Observable.from(list)
+		inputqueue.add(event);
+		if(inputqueue.size() >= limit) {
+			Observable.from(inputqueue)
 			.subscribeOn(Schedulers.from(executorServiceForSubscribers))
 			.observeOn(Schedulers.from(executorServiceForObservables))
 			.subscribe((next) -> {
-				logger.debug("Rempoved "+next);
-				list.remove(next);
+				logger.debug("Removed "+next);
+				if(outputList.add(next)) inputqueue.remove(next);
 			});
 		}
 		
 		
 		
-		return list.add(event);
+		return true;
 	}
 
 	
@@ -57,7 +58,11 @@ public class ReactiveDataStore implements DataStore {
 
 	@Override
 	public Collection<EventMessage<?>> getData() {
-		return list;
+		return outputList;
+	}
+	
+	public boolean jobDone() {
+		return  inputqueue.size() == 0;
 	}
 	
 

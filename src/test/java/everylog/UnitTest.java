@@ -34,9 +34,28 @@ public class UnitTest {
 		((SimpleServiceImpl)sserv).checkName();
 		sserv.sayHello("hello");
 		
-		Thread.sleep(2000);
+		//Thread.sleep(2000);
 		
 		assertThat("Number of event in store should be pair", Configurer.getInstance().getDataStore().getData().size()%2, equalTo(0));
+	}
+	
+	@Test
+	public void testReactive() throws InterruptedException {
+		SimpleService sserv = new SimpleServiceImpl();
+		((SimpleServiceImpl)sserv).setName("Name123456789901234567890");
+		((SimpleServiceImpl)sserv).getName();
+		((SimpleServiceImpl)sserv).setId(20);
+		((SimpleServiceImpl)sserv).getId();
+		((SimpleServiceImpl)sserv).checkName();
+		sserv.sayHello("hello");
+		
+		//Thread.sleep(2000);
+		
+		if(ReactiveDataStore.class.isAssignableFrom(Configurer.getInstance().getDataStore().getClass())) {
+			ReactiveDataStore rd = (ReactiveDataStore) Configurer.getInstance().getDataStore();
+			assertThat("InputQueue should be void", rd.jobDone(), equalTo(true));
+
+		}
 	}
 
 }
