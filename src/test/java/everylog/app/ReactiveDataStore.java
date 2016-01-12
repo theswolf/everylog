@@ -19,11 +19,16 @@ import core.september.everylog.config.Configurer;
 import core.september.everylog.engine.iface.DataStore;
 import core.september.everylog.engine.iface.EventMessage;
 
-public class DummyDataStore implements DataStore {
+public class ReactiveDataStore implements DataStore {
 	
 	private Queue<EventMessage<?>>  list;
-	private static Logger logger = LoggerFactory.getLogger(DummyDataStore.class);
-	public DummyDataStore() {
+	private static Logger logger = LoggerFactory.getLogger(ReactiveDataStore.class);
+	private Object lock = new Object();
+	private final static int limit = 5;
+	private ExecutorService executorServiceForObservables = Executors.newFixedThreadPool(4);
+	private ExecutorService executorServiceForSubscribers = Executors.newFixedThreadPool(2);
+	private Subscriber<? super EventMessage> subscriber;
+	public ReactiveDataStore() {
 		list = new ConcurrentLinkedQueue();
 	}
 	
@@ -31,9 +36,20 @@ public class DummyDataStore implements DataStore {
 
 	@Override
 	public boolean storeData(final EventMessage<?> event) {
+		//return list.add(event);
+		if(list.size() >= limit) {
+			Observable.from(list)
+			.subscribeOn(Schedulers.from(executorServiceForSubscribers))
+			.observeOn(Schedulers.from(executorServiceForObservables))
+			.subscribe((next) -> {
+				logger.debug("Rempoved "+next);
+				list.remove(next);
+			});
+		}
+		
+		
+		
 		return list.add(event);
-		
-		
 	}
 
 	

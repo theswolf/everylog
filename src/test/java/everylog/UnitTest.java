@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import core.september.everylog.config.Configurer;
 import everylog.app.DummyDataStore;
+import everylog.app.ReactiveDataStore;
 
 public class UnitTest {
 	
@@ -16,7 +17,7 @@ public class UnitTest {
 	@Before
     public void setUp() throws Exception {
 		
-		Configurer.getInstance().configure(new DummyDataStore());
+		Configurer.getInstance().configure(new ReactiveDataStore());
 		
     }
  
@@ -28,9 +29,12 @@ public class UnitTest {
 		SimpleService sserv = new SimpleServiceImpl();
 		((SimpleServiceImpl)sserv).setName("Name123456789901234567890");
 		((SimpleServiceImpl)sserv).getName();
+		((SimpleServiceImpl)sserv).setId(20);
+		((SimpleServiceImpl)sserv).getId();
 		((SimpleServiceImpl)sserv).checkName();
 		sserv.sayHello("hello");
 		
+		Thread.sleep(2000);
 		
 		assertThat("Number of event in store should be pair", Configurer.getInstance().getDataStore().getData().size()%2, equalTo(0));
 	}

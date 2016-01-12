@@ -8,6 +8,7 @@ public class SimpleServiceImpl implements SimpleService {
 
 	private int id;
 
+	@Traceable
 	public String getName() {
 		return name;
 	}
@@ -17,10 +18,12 @@ public class SimpleServiceImpl implements SimpleService {
 		this.name = name;
 	}
 
+	@Traceable
 	public int getId() {
 		return id;
 	}
 
+	@Traceable
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -43,9 +46,6 @@ public class SimpleServiceImpl implements SimpleService {
 		return message;
 	}
 	
-	public static void main(String[] args){
-		SimpleService sserv = new SimpleServiceImpl();
-		sserv.sayHello("hello");
-	}
+	
 
 }
