@@ -17,7 +17,7 @@ public class UnitTest {
 	@Before
     public void setUp() throws Exception {
 		
-		Configurer.getInstance().configure(new ReactiveDataStore());
+		Configurer.getInstance().configure(new DummyDataStore());
 		
     }
  
@@ -34,7 +34,8 @@ public class UnitTest {
 		((SimpleServiceImpl)sserv).checkName();
 		sserv.sayHello("hello");
 		
-		//Thread.sleep(2000);
+		if(ReactiveDataStore.class.isAssignableFrom(Configurer.getInstance().getDataStore().getClass()))
+		Thread.sleep(2000);
 		
 		assertThat("Number of event in store should be pair", Configurer.getInstance().getDataStore().getData().size()%2, equalTo(0));
 	}
@@ -49,9 +50,10 @@ public class UnitTest {
 		((SimpleServiceImpl)sserv).checkName();
 		sserv.sayHello("hello");
 		
-		//Thread.sleep(2000);
+		
 		
 		if(ReactiveDataStore.class.isAssignableFrom(Configurer.getInstance().getDataStore().getClass())) {
+			Thread.sleep(2000);
 			ReactiveDataStore rd = (ReactiveDataStore) Configurer.getInstance().getDataStore();
 			assertThat("InputQueue should be void", rd.jobDone(), equalTo(true));
 

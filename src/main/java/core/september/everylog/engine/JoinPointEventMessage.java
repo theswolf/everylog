@@ -90,7 +90,10 @@ public class JoinPointEventMessage extends EventMessage<JoinPoint>{
 	
 	protected Map<Integer,String> extractArgs(JoinPoint jp) {
 		Map<Integer,String> retMap = new HashMap<Integer,String>();
-		Arrays.asList(jp.getArgs()).forEach(arg->retMap.put(retMap.keySet().size(), Serializer.getInstance().serialize(arg)));
+		//Arrays.asList(jp.getArgs()).forEach(arg->retMap.put(retMap.keySet().size(), Serializer.getInstance().serialize(arg)));
+		for(Object arg:jp.getArgs()) {
+			retMap.put(retMap.keySet().size(), Serializer.getInstance().serialize(arg));
+		}
 		return retMap;
 	}
 
