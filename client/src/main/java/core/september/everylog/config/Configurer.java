@@ -1,5 +1,7 @@
 package core.september.everylog.config;
 
+import com.google.gson.TypeAdapterFactory;
+
 import core.september.everylog.engine.EveryLogPublishAgent;
 import core.september.everylog.engine.iface.DataStore;
 import core.september.everylog.engine.iface.PublishAgent;
@@ -12,6 +14,7 @@ public class Configurer {
 	private static final Object lock = new Object();
 	private DataStore dataStore;
 	private PublishAgent publishAgent;
+	private TypeAdapterFactory typeAdapterFactory;
 	private Configurer() {
 		
 	}
@@ -50,6 +53,20 @@ public class Configurer {
 		}
 		return publishAgent;
 	}
+
+
+
+	public TypeAdapterFactory getTypeAdapterFactory() {
+		return typeAdapterFactory;
+	}
+
+
+
+	public void setTypeAdapterFactory(TypeAdapterFactory typeAdapterFactory) {
+		this.typeAdapterFactory = typeAdapterFactory;
+	}
+	
+	
 
 
 

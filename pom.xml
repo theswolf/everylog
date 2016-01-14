@@ -39,7 +39,7 @@
 	
 
 	<properties>
-		<version.number>1.0.0-SNAPSHOT</version.number>
+		<version.number>0.0.1-SNAPSHOT</version.number>
 		<spring.version>3.2.3.RELEASE</spring.version>
 		<aspectj.version>1.8.7</aspectj.version>
 		<java8.home>C:\\Program Files\\Java\\jdk1.8.0_65</java8.home>
@@ -60,10 +60,14 @@
 		<aspectj.maven.plugin.version>1.8</aspectj.maven.plugin.version>
 		<retrolambda.maven.plugin.version>2.1.0</retrolambda.maven.plugin.version>
 		<retrolambda.target>1.6</retrolambda.target>
+		<spark.version>2.3</spark.version>
+		<guava.version>19.0</guava.version>
 	</properties>
 	
 	<modules>
 		<module>client</module>
+		<module>evrylog-server</module>
+		<module>everylog-license</module>
 	</modules>
 
 

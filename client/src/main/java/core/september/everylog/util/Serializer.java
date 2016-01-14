@@ -9,6 +9,8 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.GsonBuilder;
 
+import core.september.everylog.config.Configurer;
+
 public class Serializer {
 	
 	private static GsonBuilder gsonBuilder;
@@ -17,6 +19,9 @@ public class Serializer {
 	private Serializer() {
 		gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapterFactory(new ClassTypeAdapterFactory());
+		if(Configurer.getInstance().getTypeAdapterFactory() != null) {
+			gsonBuilder.registerTypeAdapterFactory(Configurer.getInstance().getTypeAdapterFactory());
+		}
 	}
 	
 	public static Serializer getInstance() {
