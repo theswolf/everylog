@@ -43,6 +43,13 @@ public class DummyDataStore implements DataStore {
 	public Collection<EventMessage<?>> getData() {
 		return list;
 	}
+
+
+
+	@Override
+	public void publish(EventMessage<?> event) {
+			Configurer.getInstance().getPublishAgent().publish(event);
+	}
 	
 
 }

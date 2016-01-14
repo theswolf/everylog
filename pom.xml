@@ -3,7 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>core.september</groupId>
 	<artifactId>everylog</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>${version.number}</version>
+	<packaging>pom</packaging>
 	<name>EveryLog</name>
 
 	<pluginRepositories>
@@ -35,82 +36,10 @@
 		</repository>
 	</repositories>
 
-	<dependencies>
-		<!-- dependency> <groupId>org.springframework</groupId> <artifactId>spring-core</artifactId> 
-			<version>${spring.version}</version> </dependency> <dependency> <groupId>org.springframework</groupId> 
-			<artifactId>spring-context</artifactId> <version>${spring.version}</version> 
-			</dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-aop</artifactId> 
-			<version>3.2.4.RELEASE</version> </dependency -->
-
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>${aspectj.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<version>${aspectj.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjtools</artifactId>
-			<version>${aspectj.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.reactivex</groupId>
-			<artifactId>rxjava</artifactId>
-			<version>1.1.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.5</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.13</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.13</version>
-		</dependency>
-
-
-		<!-- <dependency> -->
-		<!-- <groupId>com.google.inject</groupId> -->
-		<!-- <artifactId>guice</artifactId> -->
-		<!-- <version>4.0</version> -->
-		<!-- </dependency> -->
-
-
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-all</artifactId>
-			<version>1.3</version>
-			<scope>test</scope>
-		</dependency>
-
-	</dependencies>
+	
 
 	<properties>
+		<version.number>1.0.0-SNAPSHOT</version.number>
 		<spring.version>3.2.3.RELEASE</spring.version>
 		<aspectj.version>1.8.7</aspectj.version>
 		<java8.home>C:\\Program Files\\Java\\jdk1.8.0_65</java8.home>
@@ -120,53 +49,22 @@
 		<project.build.source>1.8</project.build.source>
 		<project.build.target>1.8</project.build.target>
 		<!-- <executable>${java8.exec}</executable> -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<encoding>UTF-8</encoding>
+		<rxjava.version>1.1.0</rxjava.version>
+		<gson.version>2.5</gson.version>
+		<slf4j.version>1.7.13</slf4j.version>
+		<junit.version>4.11</junit.version>
+		<hamcrest.version>1.3</hamcrest.version>
+		<maven.compiler.plugin.version>3.2</maven.compiler.plugin.version>
+		<aspectj.maven.plugin.version>1.8</aspectj.maven.plugin.version>
+		<retrolambda.maven.plugin.version>2.1.0</retrolambda.maven.plugin.version>
+		<retrolambda.target>1.6</retrolambda.target>
 	</properties>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>aspectj-maven-plugin</artifactId>
-				<version>1.8</version>
-				<configuration>
-					<complianceLevel>${project.build.source}</complianceLevel>
-					<source>${project.build.source}</source>
-					<target>${project.build.target}</target>
-					<!-- <executable>${java8.exec}</executable> -->
-					<encoding>UTF-8</encoding>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>       <!-- use this goal to weave all your main classes -->
-							<goal>test-compile</goal>  <!-- use this goal to weave all your test classes -->
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>net.orfjackal.retrolambda</groupId>
-				<artifactId>retrolambda-maven-plugin</artifactId>
-				<version>2.1.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>process-main</goal>
-							<goal>process-test</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<target>1.6</target>
-        			<defaultMethods>true</defaultMethods>
-					<java8home>${java8.home}</java8home>
-				</configuration>
-			</plugin>
-
-
-		</plugins>
-	</build>
+	
+	<modules>
+		<module>client</module>
+	</modules>
 
 
 </project>

@@ -1,6 +1,8 @@
 package core.september.everylog.config;
 
+import core.september.everylog.engine.EveryLogPublishAgent;
 import core.september.everylog.engine.iface.DataStore;
+import core.september.everylog.engine.iface.PublishAgent;
 
 
 
@@ -9,6 +11,7 @@ public class Configurer {
 	private static Configurer instance;
 	private static final Object lock = new Object();
 	private DataStore dataStore;
+	private PublishAgent publishAgent;
 	private Configurer() {
 		
 	}
@@ -39,6 +42,13 @@ public class Configurer {
 
 	public  DataStore getDataStore() {
 		return dataStore;
+	}
+	
+	public  PublishAgent getPublishAgent() {
+		if(publishAgent == null) {
+			publishAgent = new EveryLogPublishAgent();
+		}
+		return publishAgent;
 	}
 
 

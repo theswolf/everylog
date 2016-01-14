@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import rx.Observable;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
+import core.september.everylog.config.Configurer;
 import core.september.everylog.engine.iface.DataStore;
 import core.september.everylog.engine.iface.EventMessage;
 
@@ -63,6 +64,13 @@ public class ReactiveDataStore implements DataStore {
 	
 	public boolean jobDone() {
 		return  inputqueue.size() == 0;
+	}
+
+
+	@Override
+	public void publish(EventMessage<?> event) {
+		Configurer.getInstance().getPublishAgent().publish(event);
+	
 	}
 	
 
