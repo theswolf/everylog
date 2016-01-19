@@ -2,8 +2,7 @@ package core.september.everylog.util;
 
 import java.util.Arrays;
 import java.util.List;
-
-import org.aspectj.lang.JoinPoint;
+import java.util.Random;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -53,6 +52,31 @@ public class Serializer {
 				return false;
 			}
 		};
+	}
+	
+	public static void main(String[] args) {
+		Boolean myVal = false;
+		int earn = 0;
+		int lost = 0;
+		int bet = 1;
+		Random r = new Random();
+		for(int i = 0; i < 10000; i++) {
+			boolean val = r.nextInt(2) == 0;
+			lost+=bet;
+			if(myVal == val) { //ho vinto
+				earn+=(bet*2);
+				myVal=!myVal;
+				bet=1;
+			}
+			else {
+				bet*=2;
+			}
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append("EARN:").append(earn).append("\n");
+		sb.append("LOST:").append(lost).append("\n");
+		sb.append("TRUE:").append(earn-lost).append("\n");
+		System.out.println(sb.toString());
 	}
 	
 
